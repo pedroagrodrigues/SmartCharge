@@ -73,7 +73,7 @@ class DNA:
         total_cost = self.calculateCost(self.genes)
         total_score = target / total_cost
         self.fitness = total_score
-        self.fitness = self.fitness ** 2
+        #self.fitness = self.fitness ** 2
   
 
     #Fitness function (returns floating point % of "correct" characters)
@@ -109,6 +109,9 @@ class DNA:
                 result = False
         return result
   
+    def getPhrase(self):
+        return self.genes
+
 
     def crossoverSchedule(self, partner):
         child = DNA(24, self.load)
@@ -138,13 +141,13 @@ class DNA:
 
     def checkRepetitions(self, child):
         #repetition = False
-        print ("tamanho child ", len(child))
+        #print ("tamanho child ", len(child))
         for i in range(len(child)):
             for j in range(len(child)):
                 if child[i] == child[j] and i != j:
-                    print (str(child[i]), " ---> REPETITION")
+                    #print (str(child[i]), " ---> REPETITION")
                     return
-        print("NO REPETITION")
+        #print("NO REPETITION")
   
     def insertNextElem(self, currentSchedule):
         result = 0
@@ -216,7 +219,7 @@ class DNA:
         #randomSchedule = createRandomSchedule()
         for i in range(len(self.genes)):
             if random() < mutationRate:
-                index = floor(randrange(94))
+                index = floor(randrange(23))
                 temp = self.genes[i]
                 self.genes[i] = self.genes[index]
                 self.genes[index] = temp

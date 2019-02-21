@@ -62,7 +62,7 @@ class Population:
     #Generate a mating pool
     def naturalSelection(self):
         #Clear the ArrayList
-        print("Tamanho ", len(self.population[0].genes))
+        #print("Tamanho ", len(self.population[0].genes))
         self.matingPool = []
         maxFitness = 0
         for i in range(len(self.population)):
@@ -72,14 +72,19 @@ class Population:
         #Based on fitness, each member will get added to the mating pool a certain number of times
         #a higher fitness = more entries to mating pool = more likely to be picked as a parent
         #a lower fitness = fewer entries to mating pool = less likely to be picked as a parent
+   
         for i in range(len(self.population)):
-            
-            fitness = map(self.population[i].fitness, 0, maxFitness, 0, 1)
+            fitness = self.normalize(self.population[i].fitness, maxFitness)
             n = floor(fitness * 100) #Arbitrary multiplier, we can also use monte carlo method
             for j in range(n):  #and pick two random numbers
                 self.matingPool.append(self.population[j])
       
     
+    
+    def normalize(self, currentPopulation, maxFitness):
+       return currentPopulation/maxFitness
+
+
     #Create a new generation
     def generate(self):
         #Refill the population with children from the mating pool
@@ -96,8 +101,9 @@ class Population:
     
     def getBest(self):
         best_load = []
+        #print ("best é: ", self.best)
         for i in range(len(self.original_load)):
-            best_load[i] = self.original_load[self.best[i]]
+            best_load.append(self.original_load[self.best[i]])
             #print(self.best[i]);
         return best_load
   
@@ -108,13 +114,13 @@ class Population:
         for i in range(len(self.population)):
             if self.population[i].fitness > worldrecord:
                 index = i
-            worldrecord = self.population[i].fitness
-            print(str(self.population[i]))
+                worldrecord = self.population[i].fitness
+            #print(str(self.population[i]))
         self.best = self.population[index].getPhrase()
 
-        print(" world reccord", worldrecord)
-        for i in range(len(self.best)):
-            print(str(self.original_load[self.best[i]]))
+        print("World reccord: ", worldrecord)
+        """ for i in range(len(self.best)):
+            print(str(self.original_load[self.best[i]])) """
         if worldrecord > self.perfectScore:
             self.finished = True
     

@@ -29,6 +29,7 @@
 #   # Rinse and repeat
 from Population import Population
 from math import floor
+
 cost_n = 0.14
 cost_v = 0.12
 cost_p = 0.20
@@ -113,7 +114,11 @@ mutationRate = 0.01
 
 population = Population(minimumCost, mutationRate, popmax, base_load)
 
-print(population.calculateCost(base_load))
+print("Current Load: ", population.calculateCost(base_load))
 
 statStop()
-nextGen()
+for i in range(20):
+    nextGen()
+
+print(base_load)
+print(population.getBest())
