@@ -30,7 +30,7 @@ class Population:
         
         self.population = [] 
         for i in range(num):
-            self.population.append(DNA(24, firstLoad))
+            self.population.append(DNA(len(firstLoad), firstLoad))
 
         self.calcFitness()
 
@@ -45,17 +45,17 @@ class Population:
         cost_p = 0.20
         total_cost = 0
         for i in range(len(load)):
-            if (i < 6):
+            if (i < len(load)*6/24):
                 total_cost += load[i] * cost_v
-            elif (i < 12):
+            elif (i < 12*len(load)/24):
                 total_cost += load[i] * cost_n
-            elif (i < 14):
+            elif (i < 14*len(load)/24):
                 total_cost += load[i] * cost_p
-            elif (i < 18):
+            elif (i < 18*len(load)/24):
                 total_cost += load[i] * cost_n
-            elif (i < 20):
+            elif (i < 20*len(load)/24):
                 total_cost += load[i] * cost_p
-            elif (i <= 23):
+            elif (i <= 23*len(load)/24):
                 total_cost += load[i] * cost_n
         return total_cost
   

@@ -21,7 +21,7 @@ class DNA:
     def __init__(self, num, load):
         self.load = load
         self.fitness = 0
-        self.genes = createRandomSchedule()
+        self.genes = createRandomSchedule(load)
 
     '''
         Alterar aqui
@@ -33,17 +33,17 @@ class DNA:
         total_cost = 0
         
         for i in range(len(load)):
-            if i < 6:
+            if i < 6 * len(load) / 24:
                 total_cost += self.load[load[i]] * cost_v
-            elif i < 12:
+            elif i < 12 * len(load) / 24:
                 total_cost += self.load[load[i]] * cost_n
-            elif i < 14:
+            elif i < 14 * len(load) / 24:
                 total_cost += self.load[load[i]] * cost_p
-            elif i < 18:
+            elif i < 18 * len(load) / 24:
                 total_cost += self.load[load[i]] * cost_n
-            elif i < 20:
+            elif i < 20 * len(load) / 24:
                 total_cost += self.load[load[i]] * cost_p
-            elif i <= 23:
+            elif i <= 23 * len(load) / 24:
                 total_cost += self.load[load[i]] * cost_n
 
         return total_cost
@@ -114,7 +114,7 @@ class DNA:
 
 
     def crossoverSchedule(self, partner):
-        child = DNA(24, self.load)
+        child = DNA(len(self.load), self.load)
         for i in range(len(child.genes)):
             child.genes[i] = -1
 
@@ -167,7 +167,7 @@ class DNA:
 
     def crossoverNew(self, partner):
         #A new child
-        child = DNA(24, self.load)
+        child = DNA(len(self.load), self.load)
         for i in range(len(child.genes)):
             child.genes[i] = -1
         #midpoint = floor(random(len(self.genes))) #Pick a midpoint
@@ -193,7 +193,7 @@ class DNA:
         #print("--->", this.genes);
         #print("--->", partner.genes);
         #print("--->", child.genes);
-        self.checkRepetitions(child.genes)
+        #self.checkRepetitions(child.genes)
         return child
   
     #Crossover
@@ -225,8 +225,12 @@ class DNA:
                 self.genes[index] = temp
 
 
-def createRandomSchedule():
-    day = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]
+def createRandomSchedule(load):
+    day = []
+
+    for i in range(len(load)):
+        day.append(i)
+
     ctr = len(day)
 
     #While there are elements in the array
