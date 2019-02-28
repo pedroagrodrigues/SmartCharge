@@ -29,7 +29,7 @@ class DNA:
     def calculateCost(self, load):
         cost_n = 0.14
         cost_v = 0.12
-        cost_p = 0.20
+        cost_p = 1 #0.20
         total_cost = 0
         
         for i in range(len(load)):
@@ -52,7 +52,7 @@ class DNA:
     def calculateSingleCost(self, value, hour):
         cost_n = 0.14
         cost_v = 0.12
-        cost_p = 0.20
+        cost_p = 1 #0.2
         total_cost = 0
         if hour < 6*4:
             total_cost = value * cost_v
@@ -73,6 +73,7 @@ class DNA:
         total_cost = self.calculateCost(self.genes)
         total_score = target / total_cost
         self.fitness = total_score
+        #print("totalCost: ", total_cost, " totalScore: ", total_score)
         #self.fitness = self.fitness ** 2
   
 
@@ -121,7 +122,7 @@ class DNA:
         self.crossoverNew(partner)
 
         for i in range(len(child.genes)):
-            if self.calculateSingleCost(self.load[self.genes[i]], i) < self.calculateSingleCost(self.load[partner.genes[i]], i):
+            if self.calculateSingleCost(self.load[self.genes[i]], i*(len(self.load)/24)) < self.calculateSingleCost(self.load[partner.genes[i]], i*(len(self.load)/24)):
                 if child.genes[i] == -1:
                     if self.checkScheduleAvail(child.genes, self.genes[i]):
                         child.genes[i] = self.genes[i]

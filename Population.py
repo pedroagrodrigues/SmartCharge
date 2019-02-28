@@ -42,12 +42,12 @@ class Population:
     def calculateCost(self, load):
         cost_n = 0.14
         cost_v = 0.12
-        cost_p = 0.20
+        cost_p = 1 #0.20
         total_cost = 0
         for i in range(len(load)):
-            if (i < len(load)*6/24):
+            if (i < 6 * len(load)/24):
                 total_cost += load[i] * cost_v
-            elif (i < 12*len(load)/24):
+            elif (i < 12 * len(load)/24):
                 total_cost += load[i] * cost_n
             elif (i < 14*len(load)/24):
                 total_cost += load[i] * cost_p
