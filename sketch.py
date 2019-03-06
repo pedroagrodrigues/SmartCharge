@@ -29,7 +29,7 @@
 #   # Rinse and repeat
 from Population import Population
 from math import floor
-
+from common import priceCalculation
 cost_n = 0.14
 cost_v = 0.12
 cost_p = 1 #0.20
@@ -145,7 +145,8 @@ mutationRate = 0.05
 populationInitial = Population(minimumCost, mutationRate, popmax, base_load_4)
 population = Population(minimumCost, mutationRate, popmax, base_load_4)
 
-print("Current Load: ", population.calculateCost(base_load_4))
+print("Current Load: ", priceCalculation(base_load_4))
+
 
 statStop()
 for i in range(20):

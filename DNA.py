@@ -15,6 +15,7 @@
 
 from math import floor
 from random import random, randrange
+from common import priceCalculation
 
 class DNA:
     #the DNA receives the load of the house, and what will change is the arrangement of the consumption
@@ -23,37 +24,13 @@ class DNA:
         self.fitness = 0
         self.genes = createRandomSchedule(load)
 
-    '''
-        Alterar aqui
-    '''
-    def calculateCost(self, load):
-        cost_n = 0.14
-        cost_v = 0.12
-        cost_p = 1 #0.20
-        total_cost = 0
-        
-        for i in range(len(load)):
-            if i < 6 * len(load) / 24:
-                total_cost += self.load[load[i]] * cost_v
-            elif i < 12 * len(load) / 24:
-                total_cost += self.load[load[i]] * cost_n
-            elif i < 14 * len(load) / 24:
-                total_cost += self.load[load[i]] * cost_p
-            elif i < 18 * len(load) / 24:
-                total_cost += self.load[load[i]] * cost_n
-            elif i < 20 * len(load) / 24:
-                total_cost += self.load[load[i]] * cost_p
-            elif i <= 23 * len(load) / 24:
-                total_cost += self.load[load[i]] * cost_n
-
-        return total_cost
-
 
     def calculateSingleCost(self, value, hour):
         cost_n = 0.14
         cost_v = 0.12
         cost_p = 1 #0.2
         total_cost = 0
+
         if hour < 6*4:
             total_cost = value * cost_v
         elif hour < 12*4:
@@ -66,11 +43,12 @@ class DNA:
             total_cost = value * cost_p
         elif hour <= 23*4:
             total_cost = value * cost_n
+
         return total_cost
   
 
     def calcFitness(self, target):
-        total_cost = self.calculateCost(self.genes)
+        total_cost = priceCalculation(self.genes)
         total_score = target / total_cost
         self.fitness = total_score
         #print("totalCost: ", total_cost, " totalScore: ", total_score)
@@ -114,30 +92,33 @@ class DNA:
         return self.genes
 
 
-    def crossoverSchedule(self, partner):
-        child = DNA(len(self.load), self.load)
-        for i in range(len(child.genes)):
-            child.genes[i] = -1
+    #Not in use!
+    # def crossoverSchedule(self, partner):
+    #     child = DNA(len(self.load), self.load)
+    #     for i in range(len(child.genes)):
+    #         child.genes[i] = -1
 
-        self.crossoverNew(partner)
+    #     self.crossoverNew(partner)
 
-        for i in range(len(child.genes)):
-            if self.calculateSingleCost(self.load[self.genes[i]], i*(len(self.load)/24)) < self.calculateSingleCost(self.load[partner.genes[i]], i*(len(self.load)/24)):
-                if child.genes[i] == -1:
-                    if self.checkScheduleAvail(child.genes, self.genes[i]):
-                        child.genes[i] = self.genes[i]
-                    else:
-                        child.genes[i] = -2
-            if child.genes[i] == -2:
-                pass
-                #print ('repetido')
-            else:
-                if child.genes[i] == -1:
-                    if self.checkScheduleAvail(child.genes, partner.genes[i]):
-                        child.genes[i] = partner.genes[i]
-                    else:
-                        child.genes[i] = -2
-        return child
+    #     for i in range(len(child.genes)):
+    #         print('carga: ', str(self.load[self.genes[i]]) ," hora: ", str(i*(len(self.load)/24)))
+    #         if self.calculateSingleCost(self.load[self.genes[i]], i*(len(self.load)/24)) < self.calculateSingleCost(self.load[partner.genes[i]], i*(len(self.load)/24)):
+    #         #if priceSingleCost(self.genes[i], i * (len(self.load) / 24)
+    #             if child.genes[i] == -1:
+    #                 if self.checkScheduleAvail(child.genes, self.genes[i]):
+    #                     child.genes[i] = self.genes[i]
+    #                 else:
+    #                     child.genes[i] = -2
+    #         if child.genes[i] == -2:
+    #             pass
+    #             #print ('repetido')
+    #         else:
+    #             if child.genes[i] == -1:
+    #                 if self.checkScheduleAvail(child.genes, partner.genes[i]):
+    #                     child.genes[i] = partner.genes[i]
+    #                 else:
+    #                     child.genes[i] = -2
+    #     return child
   
 
     def checkRepetitions(self, child):

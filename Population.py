@@ -15,7 +15,7 @@
 from DNA import DNA
 from math import floor
 from random import random, randrange
-
+from common import priceCalculation
 class Population:
     def __init__(self, target, mutationRate, num, firstLoad):
         self.population = [] #Array to hold the current population
@@ -39,26 +39,7 @@ class Population:
         for i in range(len(self.population)):
             self.population[i].calcFitness(self.target)
 
-    def calculateCost(self, load):
-        cost_n = 0.14
-        cost_v = 0.12
-        cost_p = 1 #0.20
-        total_cost = 0
-        for i in range(len(load)):
-            if (i < 6 * len(load)/24):
-                total_cost += load[i] * cost_v
-            elif (i < 12 * len(load)/24):
-                total_cost += load[i] * cost_n
-            elif (i < 14*len(load)/24):
-                total_cost += load[i] * cost_p
-            elif (i < 18*len(load)/24):
-                total_cost += load[i] * cost_n
-            elif (i < 20*len(load)/24):
-                total_cost += load[i] * cost_p
-            elif (i <= 23*len(load)/24):
-                total_cost += load[i] * cost_n
-        return total_cost
-  
+
     #Generate a mating pool
     def naturalSelection(self):
         #Clear the ArrayList
