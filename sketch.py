@@ -29,10 +29,8 @@
 #   # Rinse and repeat
 from Population import Population
 from math import floor
-from common import priceCalculation
-cost_n = 0.14
-cost_v = 0.12
-cost_p = 1 #0.20
+from common import priceCalculation, calculateMinumumCost
+
 
 running = False
 
@@ -89,11 +87,7 @@ def nextGen():
 # the minimum consumption is  equal to all consumption happening in vazio
  
 
-def calculateMinumumCost(load):
-    total = 0
-    for i in range(len(load)):
-        total += load[i]*cost_v
-    return total
+
 
 def statStop():
     #addData(Base_load)
@@ -139,8 +133,8 @@ base_load_4 = [10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10
 
 minimumCost = calculateMinumumCost(base_load_4)
 print("Minimum cost for current load ", minimumCost)
-popmax = 500
-mutationRate = 0.05
+popmax = 200
+mutationRate = 0.1
 
 populationInitial = Population(minimumCost, mutationRate, popmax, base_load_4)
 population = Population(minimumCost, mutationRate, popmax, base_load_4)

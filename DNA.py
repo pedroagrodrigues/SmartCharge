@@ -15,7 +15,7 @@
 
 from math import floor
 from random import random, randrange
-from common import priceCalculation
+from common import priceCalculation, createRandomSchedule
 
 class DNA:
     #the DNA receives the load of the house, and what will change is the arrangement of the consumption
@@ -24,7 +24,7 @@ class DNA:
         self.fitness = 0
         self.genes = createRandomSchedule(load)
 
-
+    """ 
     def calculateSingleCost(self, value, hour):
         cost_n = 0.14
         cost_v = 0.12
@@ -45,16 +45,18 @@ class DNA:
             total_cost = value * cost_n
 
         return total_cost
-  
+    """
 
     def calcFitness(self, target):
         total_cost = priceCalculation(self.genes)
+
         total_score = target / total_cost
         self.fitness = total_score
         #print("totalCost: ", total_cost, " totalScore: ", total_score)
         #self.fitness = self.fitness ** 2
   
 
+    """  
     #Fitness function (returns floating point % of "correct" characters)
     def calcFitness2(self, target):
         score = 0
@@ -71,15 +73,15 @@ class DNA:
         
         for i in range(len(scores)):
             total_score += scores[i]
-        self.fitness = total_score/len(scores)
+        self.fitness = total_score/len(scores) """
         
-    
+    """  
     def checkScheduleComplete(self, schedule):
         result = True
         for i in range(len(schedule)):
             if schedule[i] == -1:
                 result = False
-        return result
+        return result """
 
     def checkScheduleAvail(self, schedule, time):
         result = True
@@ -88,8 +90,7 @@ class DNA:
                 result = False
         return result
   
-    def getPhrase(self):
-        return self.genes
+   
 
 
     #Not in use!
@@ -120,7 +121,7 @@ class DNA:
     #                     child.genes[i] = -2
     #     return child
   
-
+    """ 
     def checkRepetitions(self, child):
         #repetition = False
         #print ("tamanho child ", len(child))
@@ -130,7 +131,7 @@ class DNA:
                     #print (str(child[i]), " ---> REPETITION")
                     return
         #print("NO REPETITION")
-  
+    """
     def insertNextElem(self, currentSchedule):
         result = 0
         solution = False
@@ -206,23 +207,3 @@ class DNA:
                 self.genes[i] = self.genes[index]
                 self.genes[index] = temp
 
-
-def createRandomSchedule(load):
-    day = []
-
-    for i in range(len(load)):
-        day.append(i)
-
-    ctr = len(day)
-
-    #While there are elements in the array
-    while ctr > 0:
-        #Pick a random index
-        index = floor(random() * ctr)
-        #Decrease ctr by 1
-        ctr -= 1
-        #And swap the last element with it
-        temp = day[ctr]
-        day[ctr] = day[index]
-        day[index] = temp
-    return day

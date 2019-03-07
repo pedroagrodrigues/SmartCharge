@@ -29,12 +29,13 @@ class Population:
         self.best = ""
         
         self.population = [] 
+
         for i in range(num):
             self.population.append(DNA(len(firstLoad), firstLoad))
 
         self.calcFitness()
 
-    #Não faz muito sentido -- Recursiva sem paragem? 
+    
     def calcFitness(self):
         for i in range(len(self.population)):
             self.population[i].calcFitness(self.target)
@@ -56,14 +57,16 @@ class Population:
    
         for i in range(len(self.population)):
             fitness = self.normalize(self.population[i].fitness, maxFitness)
-            n = floor(fitness * 100) #Arbitrary multiplier, we can also use monte carlo method
+            #print(fitness)
+            #n = floor(fitness * 100) #Arbitrary multiplier, we can also use monte carlo method
+            n = 1 #floor(fitness * 10)
             for j in range(n):  #and pick two random numbers
                 self.matingPool.append(self.population[j])
       
     
     
     def normalize(self, currentPopulation, maxFitness):
-       return currentPopulation/maxFitness
+       return currentPopulation / maxFitness
 
 
     #Create a new generation
@@ -97,7 +100,7 @@ class Population:
                 index = i
                 worldrecord = self.population[i].fitness
             #print(str(self.population[i]))
-        self.best = self.population[index].getPhrase()
+        self.best = self.population[index].genes
 
         print("World reccord: ", worldrecord)
         """ for i in range(len(self.best)):
