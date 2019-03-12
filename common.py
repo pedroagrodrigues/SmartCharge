@@ -7,18 +7,27 @@ from random import shuffle
 
 #   Default variables
 
-cost_n = 0.1716
 cost_v = 0.0982
+cost_n = 0.1716
 cost_p = 0.2153
 
 #   Initializer to the variables, if you don't want to use default values, you call this function
 #and provide the new valies. 
 
-def varInitializer(value_n, value_v, value_p, valueTotalCost):
-    cost_n = value_n
-    cost_v = value_v
-    cost_p = value_p
-    totalCost = valueTotalCost
+def varInitializer(variable_v, variable_n, variable_p):
+    global cost_v, cost_n, cost_p
+    cost_v = variable_v
+    cost_n = variable_n
+    cost_p = variable_p
+
+#   Function to load everythong you need from the file, call this function if you need to use the config.conf file
+def fileReader():
+    file = open('config.conf', 'r').readlines()
+    varFound = []
+    for line in file:
+        if not line.startswith('#'):
+            varFound.append(line)
+    varInitializer(int(varFound[0]), int(varFound[1]), int(varFound[2]))
 
 
 def calculateMinumumCost(load):
