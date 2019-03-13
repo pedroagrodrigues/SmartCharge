@@ -26,8 +26,9 @@ class Population:
         self.mutationRate = mutationRate #Mutation rate
         self.perfectScore = 0.8
         self.original_load = firstLoad
-        self.best = ""
-        
+        self.best = ''
+        self.currentBest = 0.0
+        self.bestRecord = 0
         self.population = [] 
 
         for i in range(num):
@@ -85,10 +86,8 @@ class Population:
     
     def getBest(self):
         best_load = []
-        #print ("best é: ", self.best)
         for i in range(len(self.original_load)):
             best_load.append(self.original_load[self.best[i]])
-            #print(self.best[i]);
         return best_load
   
     #Compute the current "most fit" member of the population
@@ -100,8 +99,12 @@ class Population:
                 index = i
                 worldrecord = self.population[i].fitness
             #print(str(self.population[i]))
-        self.best = self.population[index].genes
+        
+        if worldrecord > self.bestRecord:
+            self.bestRecord = worldrecord
+            self.best = self.population[index].load
 
+        self.currentBest = self.population[index].load
         print("World reccord: ", worldrecord)
         """ for i in range(len(self.best)):
             print(str(self.original_load[self.best[i]])) """

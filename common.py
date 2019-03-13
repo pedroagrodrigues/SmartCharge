@@ -27,7 +27,7 @@ def fileReader():
     for line in file:
         if not line.startswith('#'):
             varFound.append(line)
-    varInitializer(int(varFound[0]), int(varFound[1]), int(varFound[2]))
+    varInitializer(float(varFound[0]), float(varFound[1]), float(varFound[2]))
 
 
 def calculateMinumumCost(load):
@@ -41,6 +41,7 @@ def calculateMinumumCost(load):
 def priceCalculation(individual):
     day = len(individual) / 24 #This will scale any given population to 24 hours
     totalCost = 0
+    
     for i in range(len(individual)):
         if i < 6 * day:
             totalCost += individual[i] * cost_v
@@ -77,8 +78,7 @@ def priceSingleCost(value, hour):
 
 
 #   Here we create a new day with a random schedule
-def createRandomSchedule(load):
-    size = len(load)
+def createRandomSchedule(size):
     day = createArray(size)
     shuffle(day)
 

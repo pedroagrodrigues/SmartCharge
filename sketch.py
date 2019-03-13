@@ -29,7 +29,9 @@
 #   # Rinse and repeat
 from Population import Population
 from math import floor
-from common import priceCalculation, calculateMinumumCost
+import numpy
+from matplotlib import pyplot
+from common import priceCalculation, calculateMinumumCost, fileReader
 
 
 running = False
@@ -131,9 +133,19 @@ base_load_4 = [10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10
 200,200,200,200,200,200,200,200,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,200,200,
 200,200,200,200,200,200,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50]
 
+fileReader()
+
+x = numpy.linspace(0, len(base_load_4), len(base_load_4))
+
+pyplot.xlabel('Tempo')
+pyplot.ylabel('Carga')
+pyplot.title('SmartCharge')
+
+pyplot.plot(x, base_load_4, label='Baseload')
+
 minimumCost = calculateMinumumCost(base_load_4)
 print("Minimum cost for current load ", minimumCost)
-popmax = 200
+popmax = 20
 mutationRate = 0.1
 
 populationInitial = Population(minimumCost, mutationRate, popmax, base_load_4)
@@ -145,6 +157,12 @@ print("Current Load: ", priceCalculation(base_load_4))
 statStop()
 for i in range(20):
     nextGen()
+    
+pyplot.plot(x, population.best, label='Best Found')
+
+pyplot.legend()
+pyplot.show()
+
 
 """ print(base_load_2)
 print(population.getBest())

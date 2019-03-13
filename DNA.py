@@ -20,68 +20,22 @@ from common import priceCalculation, createRandomSchedule
 class DNA:
     #the DNA receives the load of the house, and what will change is the arrangement of the consumption
     def __init__(self, num, load):
-        self.load = load
+        self.genes = createRandomSchedule(num)
+        self.load = self.assignLoad(load, num)
         self.fitness = 0
-        self.genes = createRandomSchedule(load)
 
-    """ 
-    def calculateSingleCost(self, value, hour):
-        cost_n = 0.14
-        cost_v = 0.12
-        cost_p = 1 #0.2
-        total_cost = 0
 
-        if hour < 6*4:
-            total_cost = value * cost_v
-        elif hour < 12*4:
-            total_cost = value * cost_n
-        elif hour < 14*4:
-            total_cost = value * cost_p
-        elif hour < 18*4:
-            total_cost = value * cost_n
-        elif hour < 20*4:
-            total_cost = value * cost_p
-        elif hour <= 23*4:
-            total_cost = value * cost_n
-
-        return total_cost
-    """
+    def assignLoad(self, load, num):
+        temp = []
+        for i in range(num):
+            temp.append(load[self.genes[i]])
+        return temp
 
     def calcFitness(self, target):
-        total_cost = priceCalculation(self.genes)
-
+        total_cost = priceCalculation(self.load)
         total_score = target / total_cost
         self.fitness = total_score
-        #print("totalCost: ", total_cost, " totalScore: ", total_score)
-        #self.fitness = self.fitness ** 2
   
-
-    """  
-    #Fitness function (returns floating point % of "correct" characters)
-    def calcFitness2(self, target):
-        score = 0
-        scores = []
-        
-        for i in range(len(self.genes)):
-            score = abs(self.genes[i] / target[i])
-            score = 1 - (score - 1) if score > 1 else score
-            score = 220*16 - score
-            #score = 1 -(score / (220*16))
-            scores[i] = score
-
-            total_score = 0
-        
-        for i in range(len(scores)):
-            total_score += scores[i]
-        self.fitness = total_score/len(scores) """
-        
-    """  
-    def checkScheduleComplete(self, schedule):
-        result = True
-        for i in range(len(schedule)):
-            if schedule[i] == -1:
-                result = False
-        return result """
 
     def checkScheduleAvail(self, schedule, time):
         result = True
@@ -90,48 +44,7 @@ class DNA:
                 result = False
         return result
   
-   
 
-
-    #Not in use!
-    # def crossoverSchedule(self, partner):
-    #     child = DNA(len(self.load), self.load)
-    #     for i in range(len(child.genes)):
-    #         child.genes[i] = -1
-
-    #     self.crossoverNew(partner)
-
-    #     for i in range(len(child.genes)):
-    #         print('carga: ', str(self.load[self.genes[i]]) ," hora: ", str(i*(len(self.load)/24)))
-    #         if self.calculateSingleCost(self.load[self.genes[i]], i*(len(self.load)/24)) < self.calculateSingleCost(self.load[partner.genes[i]], i*(len(self.load)/24)):
-    #         #if priceSingleCost(self.genes[i], i * (len(self.load) / 24)
-    #             if child.genes[i] == -1:
-    #                 if self.checkScheduleAvail(child.genes, self.genes[i]):
-    #                     child.genes[i] = self.genes[i]
-    #                 else:
-    #                     child.genes[i] = -2
-    #         if child.genes[i] == -2:
-    #             pass
-    #             #print ('repetido')
-    #         else:
-    #             if child.genes[i] == -1:
-    #                 if self.checkScheduleAvail(child.genes, partner.genes[i]):
-    #                     child.genes[i] = partner.genes[i]
-    #                 else:
-    #                     child.genes[i] = -2
-    #     return child
-  
-    """ 
-    def checkRepetitions(self, child):
-        #repetition = False
-        #print ("tamanho child ", len(child))
-        for i in range(len(child)):
-            for j in range(len(child)):
-                if child[i] == child[j] and i != j:
-                    #print (str(child[i]), " ---> REPETITION")
-                    return
-        #print("NO REPETITION")
-    """
     def insertNextElem(self, currentSchedule):
         result = 0
         solution = False
@@ -170,30 +83,12 @@ class DNA:
                 else: 
                     #print ('prob aqui '+partner.genes[i])
                     child.genes[i] = self.insertNextElem(child.genes)
-        
-      
-    
-        #print("--->", this.genes);
-        #print("--->", partner.genes);
-        #print("--->", child.genes);
-        #self.checkRepetitions(child.genes)
+     
         return child
   
+
     #Crossover
     def crossover(self, partner):
-        #A new child
-        #child = DNA(24, self.load);
-        #midpoint = floor(random(floor(len(child.genes)))) #Pick a midpoint
-        #midpoint = floor(len(child.genes)/2) #Pick a midpoint
-        # # Half from one, half from the other
-
-        #for i in range(len(self.genes)):
-        #     if i > midpoint:
-        #         child.genes[i] = self.genes[i]
-        #   else:
-        #       child.genes[i] = partner.genes[i]
-    
-        #return child
         return self.crossoverNew(partner)
     
 
