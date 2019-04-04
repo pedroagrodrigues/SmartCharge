@@ -2,6 +2,7 @@
 
 #   Library imports
 
+from requests import get
 from math import floor
 from random import shuffle
 
@@ -10,6 +11,9 @@ from random import shuffle
 cost_v = 0.0982
 cost_n = 0.1716
 cost_p = 0.2153
+
+#URL = 'http://localhost:8080/data'
+URL = 'smile.prsma.com/tukxi/api'
 
 #   Initializer to the variables, if you don't want to use default values, you call this function
 #and provide the new valies. 
@@ -91,3 +95,30 @@ def createArray(numberElements):
     for i in range(numberElements):
         array.append(i)
     return array
+
+# Fetch data from the API
+
+def getData(plug_id, start, end, non_0=False):
+    try: 
+        data = str(get(URL+f'/plug/{plug_id}/historical-consumption/{start}/{end}/{non_0}').content).split('\\n')
+    except:
+        print("Could not retrieve data from API")
+        raise SystemExit(0) 
+    avg = []
+    sum = counter = 0
+
+    for i in range(len(data)):
+        try:
+            if i == 0  or i%15 != 0:
+                sum += float(data[i].split(',')[2])
+                counter += 1
+            else:
+                sum += float(data[i].split(',')[2])
+                avg.append(sum / 15)
+                sum = 0
+                counter = 0 #Filler (not correct)
+        except:
+            avg.append(sum/counter)
+            pass 
+    
+    return avg

@@ -1,21 +1,9 @@
-# The Nature of Code
-# Daniel Shiffman
-# http://natureofcode.com
-
-# Genetic Algorithm, Evolving Shakespeare
-
-# A class to describe a population of virtual organisms
-# In this case, each organism is just an instance of a DNA object
-'''
-     NUMA PRIMEIRA ABORDAGEM VAMOS APENAS USAR UMA LOAD BASE E TENTAR REARRANJAR OS CONSUMOS DE FORMA A DMINIUIR
-    O CUSTO TOTAL BASEADO EM 3 TARIFAS
-
-    VAMOS TENTAR MINIMIZAR ATE AO VALOR IMPOSSÍVEL EM QUE TODO O CONSUMO ACONTECE NO VAZIO
-'''
 from DNA import DNA
 from math import floor
 from random import random, randrange
 from common import priceCalculation
+
+
 class Population:
     def __init__(self, target, mutationRate, num, firstLoad):
         self.population = [] #Array to hold the current population
@@ -26,12 +14,10 @@ class Population:
         self.mutationRate = mutationRate #Mutation rate
         self.perfectScore = 0.8
         self.original_load = firstLoad
-        self.best = ''
+        self.bestRecord = [0.0,[]]
         self.currentBest = 0.0
-        self.bestRecord = 0
-        self.population = [] 
 
-        for i in range(num):
+        for _ in range(num):
             self.population.append(DNA(len(firstLoad), firstLoad))
 
         self.calcFitness()
@@ -57,7 +43,7 @@ class Population:
         #a lower fitness = fewer entries to mating pool = less likely to be picked as a parent
    
         for i in range(len(self.population)):
-            fitness = self.normalize(self.population[i].fitness, maxFitness)
+            #fitness = self.normalize(self.population[i].fitness, maxFitness)
             #print(fitness)
             #n = floor(fitness * 100) #Arbitrary multiplier, we can also use monte carlo method
             n = 1 #floor(fitness * 10)
@@ -98,11 +84,11 @@ class Population:
             if self.population[i].fitness > worldrecord:
                 index = i
                 worldrecord = self.population[i].fitness
-            #print(str(self.population[i]))
+            
         
-        if worldrecord > self.bestRecord:
-            self.bestRecord = worldrecord
-            self.best = self.population[index].load
+        if worldrecord > self.bestRecord[0]:
+            self.bestRecord[0] = worldrecord
+            self.bestRecord[1] = self.population[index].load
 
         self.currentBest = self.population[index].load
         print("World reccord: ", worldrecord)

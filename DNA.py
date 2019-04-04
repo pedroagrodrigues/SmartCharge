@@ -1,18 +1,3 @@
-
-# The Nature of Code
-# Daniel Shiffman
-# http://natureofcode.com
-
-# Genetic Algorithm, Evolving Shakespeare
-
-# A class to describe a pseudo-DNA, i.e. genotype
-#   Here, a virtual organism's DNA is an array of character.
-#   Functionality:
-#      -- convert DNA into a string
-#      -- calculate DNA's "fitness"
-#      -- mate DNA with another set of DNA
-#      -- mutate DNA
-
 from math import floor
 from random import random, randrange
 from common import priceCalculation, createRandomSchedule

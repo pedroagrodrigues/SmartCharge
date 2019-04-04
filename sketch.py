@@ -1,113 +1,30 @@
-# The Nature of Code
-# Daniel Shiffman
-# http:#natureofcode.com
 
-# Genetic Algorithm, Evolving Shakespeare
-
-# Demonstration of using a genetic algorithm to perform a search
-
-# setup()
-#  # Step 1: The Population
-#    # Create an empty population (an array or ArrayList)
-#    # Fill it with DNA encoded objects (pick random values to start)
-
-# draw()
-#  # Step 1: Selection
-#    # Create an empty mating pool (an empty ArrayList)
-#    # For every member of the population, evaluate its fitness based on some criteria / function,
-#      and add it to the mating pool in a manner consistant with its fitness, i.e. the more fit it
-#      is the more times it appears in the mating pool, in order to be more likely picked for reproduction.
-
-#  # Step 2: Reproduction Create a new empty population
-#    # Fill the new population by executing the following steps:
-#       1. Pick two "parent" objects from the mating pool.
-#       2. Crossover -- create a "child" object by mating these two parents.
-#       3. Mutation -- mutate the child's DNA based on a given probability.
-#       4. Add the child object to the new population.
-#    # Replace the old population with the new population
-#
-#   # Rinse and repeat
 from Population import Population
 from math import floor
 import numpy
 from matplotlib import pyplot
-from common import priceCalculation, calculateMinumumCost, fileReader
+from common import priceCalculation, calculateMinumumCost, fileReader, getData
 
+
+def nextGen():
+    population.naturalSelection()
+    population.generate()
+    population.calcFitness()
+    population.evaluate()
 
 running = False
 
 
-#def setup():
-# bestPhrase = createP("Best Fit:")
-# #bestPhrase.position(10,10)
-# bestPhrase.class("best")
-
-# allPhrases = createP("All phrases:")
-# allPhrases.position(600, 10)
-# allPhrases.class("all")
-
-# stats = createP("Stats")
-# #stats.position(10,200)
-# stats.class("stats")
-
-
-
-
-def nextGen():
-    #if running:
-    # Generate mating pool
-    population.naturalSelection()
-    #Create next generation
-    population.generate()
-    # Calculate fitness
-    population.calcFitness()
-    population.evaluate()
-    # If we found the target phrase, stop
-    #if population.isFinished():
-        #println(millis()/1000.0)
-    #     noLoop()
-    # subsData(population.getBest())
-    #displayInfo()
-    #delay(100)
-
-     
-# def displayInfo():
-#     # Display current status of population
-#     answer = population.getBest()
-
-#     bestPhrase.html("Best Load fit:<br>" + answer)
-#     statstext = "total generations:     " + population.getGenerations() + "<br>"
-#     statstext += "average fitness:       " + population.getAverageFitness() + "<br>"
-#     statstext += "total population:      " + popmax + "<br>"
-#     statstext += "mutation rate:         " + floor(mutationRate * 100) + "%"
-
-#     stats.html(statstext)
-
-#     allPhrases.html("All possible loads:<br>" + population.allPhrases()) 
-    
-
-# the minimum consumption is  equal to all consumption happening in vazio
- 
-
-
 
 def statStop():
-    #addData(Base_load)
-    #addData(Base_load)
     running != running
     
 
-base_load = [1.981983333, 1.213846667, 1.011533333, 0.882773333,  0.862226667, 0.851396667, 0.850308333, 0.838041667,
+""" base_load = [1.981983333, 1.213846667, 1.011533333, 0.882773333,  0.862226667, 0.851396667, 0.850308333, 0.838041667,
 6.027276667, 16.21360833,  11.764815, 20.909715, 28.57742667, 38.20092, 26.78520167, 14.98154833, 16.79817667, 8.0115,
 1.292061667, 7.621555,  7.658726667,  3.668628333,  9.180846667,  2.76731]
 
-#target = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24]
-#target2 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 
-# 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 
-# 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 
-# 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95]
 
-#
 
 base_load_2 = [3.37647049, 14.95192063, 4.25013287, 5.30515024, 9.34320604, 0.84099285, 4.14906692, 5.92555913, 1.09218238, 
 15.42361884, 2.41730785, 0.13967645, 5.20513331, 14.78998003, 5.76644157, 19.5017913, 16.91176215, 2.20395928, 8.79090141, 
@@ -131,27 +48,29 @@ base_load_3 = [564.3, 532.8, 455.8, 643.3, 400, 383.3, 348.3, 256.2, 411.2, 245.
 base_load_4 = [10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,
 10,10,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,200,200,
 200,200,200,200,200,200,200,200,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,200,200,
-200,200,200,200,200,200,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50]
+200,200,200,200,200,200,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50] """
 
 fileReader()
 
-x = numpy.linspace(0, len(base_load_4), len(base_load_4))
+baseLoad = getData()
+
+x = numpy.linspace(0, len(baseLoad), len(baseLoad))
 
 pyplot.xlabel('Tempo')
 pyplot.ylabel('Carga')
 pyplot.title('SmartCharge')
 
-pyplot.plot(x, base_load_4, label='Baseload')
+pyplot.plot(x, baseLoad, label='Baseload')
 
-minimumCost = calculateMinumumCost(base_load_4)
+minimumCost = calculateMinumumCost(baseLoad)
 print("Minimum cost for current load ", minimumCost)
-popmax = 20
+popmax = 10
 mutationRate = 0.1
 
-populationInitial = Population(minimumCost, mutationRate, popmax, base_load_4)
-population = Population(minimumCost, mutationRate, popmax, base_load_4)
+populationInitial = Population(minimumCost, mutationRate, popmax, baseLoad)
+population = Population(minimumCost, mutationRate, popmax, baseLoad)
 
-print("Current Load: ", priceCalculation(base_load_4))
+print("Current Load: ", priceCalculation(baseLoad))
 
 
 statStop()
@@ -163,7 +82,3 @@ pyplot.plot(x, population.best, label='Best Found')
 pyplot.legend()
 pyplot.show()
 
-
-""" print(base_load_2)
-print(population.getBest())
- """
