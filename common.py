@@ -13,7 +13,7 @@ cost_n = 0.1716
 cost_p = 0.2153
 
 #URL = 'http://localhost:8080/data'
-URL = 'smile.prsma.com/tukxi/api'
+URL = 'https://smile.prsma.com/tukxi/api'
 
 #   Initializer to the variables, if you don't want to use default values, you call this function
 #and provide the new valies. 
@@ -98,27 +98,32 @@ def createArray(numberElements):
 
 # Fetch data from the API
 
-def getData(plug_id, start, end, non_0=False):
-    try: 
-        data = str(get(URL+f'/plug/{plug_id}/historical-consumption/{start}/{end}/{non_0}').content).split('\\n')
+def getData(plug_id=2, start='2019-03-30T00:00:00.000Z', end='2019-03-30T23:59:59.999Z', non_0='false'):
+    accessKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiMjZiY2Y1MC01ZDFmLTExZTktOGY1MS04ZjM4Y2FjMjM5Y2UiLCJpYXQiOjE1NTUwNzI2MzMsInRva2VuIjoiNWQ0NTZlNTItMTFjMy00MDA5LThlNTEtOTM5NDgwOTc4MTVkIn0.EaeGF9CeS8p15_Amr8Q8LERZZhIDn7TFNONsYKYFA_0'
+    try:
+        print('Retrieving Data') 
+        #get(URL+f'/plug/{plug_id}/historical-consumption/{start}/{end}/{non_0}', headers={'Authorization' : 'Bearer '+accessKey})
+        data = get(URL+f'/plug/{plug_id}/historical-consumption/{start}/{end}/{non_0}', headers={'Authorization' : 'Bearer '+accessKey}).json()
     except:
         print("Could not retrieve data from API")
         raise SystemExit(0) 
     avg = []
     sum = counter = 0
+        
+   
 
     for i in range(len(data)):
         try:
             if i == 0  or i%15 != 0:
-                sum += float(data[i].split(',')[2])
+                sum += float(data[i]['measure_cons'])
                 counter += 1
             else:
-                sum += float(data[i].split(',')[2])
+                sum += float(data[i]['measure_cons'])
                 avg.append(sum / 15)
                 sum = 0
                 counter = 0 #Filler (not correct)
         except:
             avg.append(sum/counter)
-            pass 
+            pass  
     
     return avg
