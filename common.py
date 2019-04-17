@@ -121,7 +121,7 @@ def getData(plug_id=2, start='2019-03-30T00:00:00.000Z', end='2019-03-30T23:59:5
                 sum += float(data[i]['measure_cons'])
                 avg.append(sum / 15)
                 sum = 0
-                counter = 0 #Filler (not correct)
+                counter = 0 #Filler (When not correct)
         except:
             avg.append(sum/counter)
             pass  

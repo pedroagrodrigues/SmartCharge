@@ -1,11 +1,11 @@
-from flask import Flask
+from flask import Flask, render_template
 from Facade import Facade
 from common import getData
 app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return 'This is a <b>\'Hello World!\'</b> I will be doing most of the work here'
+    return render_template('index.htm', value = predictor.population.original_load)
 
 @app.route('/about')
 def about():

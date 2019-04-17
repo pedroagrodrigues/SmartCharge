@@ -73,7 +73,7 @@ class Population:
     def getBest(self):
         best_load = []
         for i in range(len(self.original_load)):
-            best_load.append(self.original_load[self.best[i]])
+            best_load.append(self.original_load[self.bestRecord[i]])                #Alterations were made
         return best_load
   
     #Compute the current "most fit" member of the population
