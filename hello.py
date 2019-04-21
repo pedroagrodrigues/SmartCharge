@@ -5,10 +5,11 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('index.htm', value = predictor.population.original_load)
+    return render_template('index.html', value = predictor.population.original_load, best = predictor.population.bestRecord[1])
 
 @app.route('/about')
 def about():
+    predictor.nextGen()
     return 'This is an exemple of another page'
 
 @app.route('/teste')

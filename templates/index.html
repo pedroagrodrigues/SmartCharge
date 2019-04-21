@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+
+      console.log({{ value }});
+
+      function drawChart() {
+        var initialData = [];
+        var bestData = [];
+
+        var value = {{ value }};
+        var best = {{ best }};
+        for(var i = 0; i < value.length; i++){
+          initialData.push([i, value[i]]);
+        }
+        if (best.length != 0)
+          for(var i = 0; i < best.length; i++){
+            initialData.push([i, best[i]]);
+          }
+        console.log(best);
+
+        var data = new google.visualization.DataTable();
+        data.addColumn('number', 'Time');
+        data.addColumn('number', 'Charge');
+        
+        data.addRows(initialData);
+        data.addRows(bestData);
+        var options = {
+          width: 1200,
+          height: 700,
+          legend: 'none',
+          colors: ['#1c91c0', '#e7711b'],
+          hAxis: { minValue: 0, maxValue: 100 },
+          curveType: 'function',
+          pointSize: 3,
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+    }
+    </script>
+    <title>
+      Graph
+    </title>
+  </head>
+  <body>
+    <div id="chart_div" style="width: 900px; height: 500px;"></div>
+  </body>
+</html>
