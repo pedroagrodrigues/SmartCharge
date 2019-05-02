@@ -77,7 +77,7 @@ statStop()
 for i in range(20):
     nextGen()
     
-pyplot.plot(x, population.best, label='Best Found')
+pyplot.plot(x, population.bestRecord, label='Best Found')
 
 pyplot.legend()
 pyplot.show()

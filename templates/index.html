@@ -1,52 +1,63 @@
 <!DOCTYPE html>
 <head>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
     <script type="text/javascript">
+      
+
+
+      function loadNextGenData(){
+        $.get( "/next", function( data ) {
+          console.log(data.initialLoad);
+          console.log(data.best);
+          console.log(data.current);
+        });
+      }
+
+     
+
+      function buildDataSet(initialLoad, best){
+        /* var data = $.get( "/data", function() {
+          alert( "success" );
+        })
+
+        console.log(data) */
+        var result = [['Tempo', 'Carga Inicial', 'Melhor Carga']]
+        for(var i = 0; i < initialLoad.length; i++){
+          result[i+1] = [i+'', initialLoad[i], best[i]];
+
+        } 
+        return result
+      }
+
       google.charts.load("current", {packages:["corechart"]});
       google.charts.setOnLoadCallback(drawChart);
-
-      console.log({{ value }});
-
       function drawChart() {
-        var initialData = [];
-        var bestData = [];
-
-        var value = {{ value }};
+        var initialLoad = {{ value }};
         var best = {{ best }};
-        for(var i = 0; i < value.length; i++){
-          initialData.push([i, value[i]]);
-        }
-        if (best.length != 0)
-          for(var i = 0; i < best.length; i++){
-            initialData.push([i, best[i]]);
-          }
-        console.log(best);
-
-        var data = new google.visualization.DataTable();
-        data.addColumn('number', 'Time');
-        data.addColumn('number', 'Charge');
-        
-        data.addRows(initialData);
-        data.addRows(bestData);
+        var data = google.visualization.arrayToDataTable(buildDataSet());
         var options = {
-          width: 1200,
-          height: 700,
-          legend: 'none',
-          colors: ['#1c91c0', '#e7711b'],
-          hAxis: { minValue: 0, maxValue: 100 },
-          curveType: 'function',
-          pointSize: 3,
+          title: 'SmartCharge',
+          legend: { position: 'right' }
         };
+
 
         var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
         chart.draw(data, options);
-    }
+      }
+
     </script>
     <title>
-      Graph
+      SmartCharge
     </title>
   </head>
-  <body>
+  <body>  
+    <div>
+      <button name="load data" onclick="loadNextGenData()">LoadData</button>
+    </div>
     <div id="chart_div" style="width: 900px; height: 500px;"></div>
   </body>
 </html>
