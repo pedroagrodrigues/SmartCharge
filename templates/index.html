@@ -7,44 +7,41 @@
   crossorigin="anonymous"></script>
     <script type="text/javascript">
       
-
+      
 
       function loadNextGenData(){
-        $.get( "/next", function( data ) {
-          console.log(data.initialLoad);
-          console.log(data.best);
-          console.log(data.current);
-        });
+        $.get( "/next", buildDataSet)
       }
 
      
+      
+        
 
-      function buildDataSet(initialLoad, best){
-        /* var data = $.get( "/data", function() {
-          alert( "success" );
+      function buildDataSet(){
+        $.get( '/data', function(data){
+          var result = [['Tempo', 'Carga Inicial', 'Melhor Carga', 'Carga Atual']]
+          for(var i = 0; i < data.initialLoad.length; i++){
+            result[i+1] = [
+              i+'', 
+              data.initialLoad[i], 
+              data.best[i], 
+              data.current[i]
+              ];
+          } 
+          drawChart(result);
         })
-
-        console.log(data) */
-        var result = [['Tempo', 'Carga Inicial', 'Melhor Carga']]
-        for(var i = 0; i < initialLoad.length; i++){
-          result[i+1] = [i+'', initialLoad[i], best[i]];
-
-        } 
-        return result
       }
 
       google.charts.load("current", {packages:["corechart"]});
-      google.charts.setOnLoadCallback(drawChart);
-      function drawChart() {
-        var initialLoad = {{ value }};
-        var best = {{ best }};
-        var data = google.visualization.arrayToDataTable(buildDataSet());
+      google.charts.setOnLoadCallback(buildDataSet);
+
+
+      function drawChart(graphData) {
+        var data = google.visualization.arrayToDataTable(graphData);
         var options = {
           title: 'SmartCharge',
           legend: { position: 'right' }
         };
-
-
         var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
         chart.draw(data, options);
       }

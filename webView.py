@@ -14,8 +14,8 @@ def getNewData():
 
 @app.route('/')
 def index():
-    return render_template('index.html', value = predictor.population.original_load, best = predictor.population.bestRecord[1])
-    #return render_template('index.html')
+    #return render_template('index.html', value = predictor.population.original_load, best = predictor.population.bestRecord[1])
+    return render_template('index.html')
 
 @app.route('/next')
 def next():

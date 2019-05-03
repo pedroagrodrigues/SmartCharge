@@ -14,8 +14,8 @@ class Population:
         self.mutationRate = mutationRate #Mutation rate
         self.perfectScore = 0.8
         self.original_load = firstLoad
-        self.bestRecord = [0.0,[]]
-        self.currentBest = 0.0
+        self.bestRecord = [0.0, firstLoad]
+        self.currentBest = firstLoad
 
         for _ in range(num):
             self.population.append(DNA(len(firstLoad), firstLoad))
