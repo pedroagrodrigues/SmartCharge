@@ -12,7 +12,7 @@ cost_v = 0.0982
 cost_n = 0.1716
 cost_p = 0.2153
 
-#URL = 'http://localhost:8080/data'
+
 URL = 'https://smile.prsma.com/tukxi/api'
 
 #   Initializer to the variables, if you don't want to use default values, you call this function
