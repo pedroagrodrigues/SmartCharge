@@ -6,12 +6,11 @@ from common import getData
 app = Flask(__name__)
 
 
-
 def getNewData():
     data = {}
-    data['initialLoad'] = predictor.population.original_load
-    data['best'] = predictor.population.bestRecord[1]
-    data['current'] = predictor.population.currentBest
+    data['initialLoad'] = app.predictor.population.original_load
+    data['best'] = app.predictor.population.bestRecord[1]
+    data['current'] = app.predictor.population.currentBest
     return data
 
 @app.route('/')
@@ -24,12 +23,12 @@ def form_post():
     startDate = request.form['startDate']
     endDate = request.form['endDate']
     offset = request.form['offset']
-    predictor = Facade(getData(plug_id, startDate, endDate, offset))
+    app.predictor = Facade(getData(plug_id, startDate, endDate, offset))
     return render_template('index.html')
 
 @app.route('/next')
 def next():
-    predictor.nextGen()
+    app.predictor.nextGen()
     return jsonify(getNewData())
 
 @app.route('/data')
@@ -37,10 +36,7 @@ def get_Data():
     return jsonify(getNewData())
 
 
-
-
-
 if __name__=='__main__':
-    predictor = Facade(getData())
+    app.predictor = ''
     app.run(debug=True)
 
