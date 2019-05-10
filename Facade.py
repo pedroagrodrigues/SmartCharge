@@ -15,6 +15,8 @@ class Facade:
         self.graph_pyplotInitializer()
         self.population = self.createPopulation(self.minimumCost, self.mutationRate, self.maxPopulation, self.baseLoad)
 
+    def getCost(self):
+        return priceCalculation(self.population.bestRecord[1])
 
     def graph_pyplotInitializer(self):
         x = numpy.linspace(0, len(self.baseLoad), len(self.baseLoad)) #x axis

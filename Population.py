@@ -91,7 +91,7 @@ class Population:
             self.bestRecord[1] = self.population[index].load
 
         self.currentBest = self.population[index].load
-        print("World reccord: ", worldrecord)
+        #print("World reccord: ", worldrecord)
         """ for i in range(len(self.best)):
             print(str(self.original_load[self.best[i]])) """
         if worldrecord > self.perfectScore:

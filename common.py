@@ -16,7 +16,7 @@ cost_p = 0.2153
 URL = 'https://smile.prsma.com/tukxi/api'
 
 #   Initializer to the variables, if you don't want to use default values, you call this function
-#and provide the new valies. 
+#and provide the new values. 
 
 def varInitializer(variable_v, variable_n, variable_p):
     global cost_v, cost_n, cost_p
@@ -108,22 +108,23 @@ def getData(plug_id, start, end, non_0):
         print("Could not retrieve data from API")
         raise SystemExit(0) 
     avg = []
-    sum = counter = 0
+    adder = counter = 0
         
    
 
     for i in range(len(data)):
         try:
             if i == 0  or i%15 != 0:
-                sum += float(data[i]['measure_cons'])
+                adder += float(data[i]['measure_cons'])/1000
                 counter += 1
             else:
-                sum += float(data[i]['measure_cons'])
-                avg.append(sum / 15)
-                sum = 0
+                adder += float(data[i]['measure_cons'])/1000
+                avg.append( adder / 15 )
+                adder = 0
                 counter = 0 #Filler (When not correct)
         except:
-            avg.append(sum/counter)
+            if counter != 0:
+                avg.append(adder/counter)
             pass  
     
     return avg
