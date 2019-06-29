@@ -99,11 +99,12 @@ def createArray(numberElements):
 
 
 # Fetch data from the API
-def getData(plug_id, start, end, non_0):
+def getData(plug_id, start, end, non_0 = 'false'):
     accessKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiMjZiY2Y1MC01ZDFmLTExZTktOGY1MS04ZjM4Y2FjMjM5Y2UiLCJpYXQiOjE1NTUwNzI2MzMsInRva2VuIjoiNWQ0NTZlNTItMTFjMy00MDA5LThlNTEtOTM5NDgwOTc4MTVkIn0.EaeGF9CeS8p15_Amr8Q8LERZZhIDn7TFNONsYKYFA_0'
     try:
         #print('Retrieving Data') 
         data = get(URL+f'/plug/{plug_id}/historical-consumption/{start}/{end}/{non_0}', headers={'Authorization' : 'Bearer '+accessKey}).json()
+        print(f'{plug_id}, {start}, {end}, {non_0}')
     except:
         print("Could not retrieve data from API")
         raise SystemExit(0) 
